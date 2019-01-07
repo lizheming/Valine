@@ -49,8 +49,18 @@ export default class extends React.Component {
   }
 
   onSubmitComment = comment => {
+    let { reply, list } = this.state;
+    if (reply && reply.id) {
+      if (!Array.isArray(reply.children)) {
+        reply.children = [];
+      }
+      reply.children = [comment, ...reply.children];
+    } else {
+      list = [comment, ...list];
+    }
+
     this.setState({
-      list: [comment, ...this.state.list],
+      list,
       reply: this.getInitialState().reply
     });
   }
@@ -92,7 +102,7 @@ export default class extends React.Component {
       <div className="info">
         <div className="power txt-right">
           Powered By
-        <a href="http://valine.js.org" target="_blank">Valine-v</a>
+        <a href="http://valine.js.org" target="_blank">Valine</a>
         </div>
       </div>
     );

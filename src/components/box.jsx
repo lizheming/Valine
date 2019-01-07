@@ -40,14 +40,14 @@ export default class extends React.Component {
   }
 
   submit = async () => {
-    const { store, rid } = this.props;
+    const { store, reply } = this.props;
     const { userInfo, userComment } = this.state;
     if (!userComment) {
       return;
     }
 
     const ret = await store.add({
-      rid,
+      rid: reply && reply.id ? reply.id : undefined,
       comment: userComment,
       ...userInfo
     });
