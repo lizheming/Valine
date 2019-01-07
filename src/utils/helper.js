@@ -28,6 +28,9 @@ export function parseOptions(opts = {}) {
   };
 
   opts.url = (opts.path || location.pathname).replace(/index\.(html|htm)/, '');
+
+  // opts.anonymous 
+  opts.login = opts.login || function () { };
   return opts;
 };
 

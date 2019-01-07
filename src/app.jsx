@@ -73,6 +73,7 @@ export default class extends React.Component {
           {...this.props}
           reply={this.state.reply}
           onSubmit={this.onSubmitComment}
+          onCancelReply={() => this.setState({ reply: null })}
         />
         {this.renderCommentInfo()}
         <CommentList

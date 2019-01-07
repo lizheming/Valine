@@ -20,9 +20,11 @@ const CACHE_KEY = "ValineCache";
 export default class extends React.Component {
   state = this.getInitialState();
   getInitialState() {
-    const userInfo = storage.getItem(CACHE_KEY) || {};
+    const cacheUser = storage.getItem(CACHE_KEY) || {};
+    const loginUser = this.props.userInfo || {};
+
     return {
-      userInfo,
+      userInfo: this.props.anonymous ? loginUser : cacheUser,
       userComment: ''
     };
   }
@@ -54,9 +56,21 @@ export default class extends React.Component {
     this.props.onSubmit(ret);
   }
 
+  cancelReply = () => {
+    this.props.onCancelReply();
+  }
+
+  login = () => {
+    this.props.login();
+  }
+
   renderUserInfo() {
     const { userInfo } = this.state;
-    const { guest_info } = this.props;
+    const { guest_info, anonymous } = this.props;
+    if (!anonymous && userInfo.mail) {
+      return null;
+    }
+
     return (
       <div className={`vheader item${guest_info.length}`}>
         {guest_info.map(info => (
@@ -72,6 +86,46 @@ export default class extends React.Component {
         ))}
       </div>
     );
+  }
+
+  renderButton() {
+    const { reply, anonymous } = this.props;
+    const { userInfo } = this.state;
+    const btns = [];
+
+    if (reply.nick) {
+      btns.push(
+        <button
+          key="cancel"
+          className="vbtn"
+          type="button"
+          onClick={this.cancelReply}
+        >取消</button>
+      );
+    }
+
+    if (!anonymous && !userInfo.mail) {
+      btns.push(
+        <button
+          key="login"
+          className="vbtn"
+          type="button"
+          onClick={this.login}
+        >登录</button>
+      );
+      return btns;
+    }
+
+    btns.push(
+      <button
+        key="submit"
+        className="vsubmit vbtn"
+        type="button"
+        onClick={this.submit}
+      >回复</button>
+
+    );
+    return btns;
   }
 
   render() {
@@ -110,11 +164,7 @@ export default class extends React.Component {
             </a>
           </div>
           <div className="col col-80 text-right">
-            <button
-              className="vsubmit vbtn"
-              type="button"
-              onClick={this.submit}
-            >回复</button>
+            {this.renderButton()}
           </div>
         </div>
       </div>
