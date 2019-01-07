@@ -27,8 +27,8 @@ export default function Comment({ comment, onReply }) {
         </div>
         <div
           className="vcontent"
-          dangerouslySetInnerHTML={{ __html: text }}
-        />
+        // dangerouslySetInnerHTML={{ __html: text }}
+        >{text}</div>
         <div className="vquote">
           {!comment.children ? null : comment.children.map(cmt =>
             <Comment
