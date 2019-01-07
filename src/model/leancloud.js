@@ -86,9 +86,9 @@ export default class {
         .addDescending('insertdAt')
         .find();
       children.forEach(child => {
-        const avatar = cmt.get('avatar');
+        const avatar = child.get('avatar');
         if (!avatar) {
-          cmt.set('avatar', this.buildAvatar(child));
+          child.set('avatar', this.buildAvatar(child));
         }
         const rid = child.get('rid');
         if (!childrenObj[rid]) {
