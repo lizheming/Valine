@@ -86,7 +86,10 @@ export default class {
         .addDescending('insertdAt')
         .find();
       children.forEach(child => {
-        child.set('avatar', this.buildAvatar(child));
+        const avatar = cmt.get('avatar');
+        if (!avatar) {
+          cmt.set('avatar', this.buildAvatar(child));
+        }
         const rid = child.get('rid');
         if (!childrenObj[rid]) {
           childrenObj[rid] = [];
@@ -101,7 +104,10 @@ export default class {
       totalPages: Math.ceil(count / pageSize),
       currentPage: page,
       data: ret.map(cmt => {
-        cmt.set('avatar', this.buildAvatar(cmt));
+        const avatar = cmt.get('avatar');
+        if (!avatar) {
+          cmt.set('avatar', this.buildAvatar(cmt));
+        }
         if (Array.isArray(childrenObj[cmt.id])) {
           cmt.children = childrenObj[cmt.id];
         }
