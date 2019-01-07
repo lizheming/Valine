@@ -24,7 +24,7 @@ export default class extends React.Component {
     const loginUser = this.props.userInfo || {};
 
     return {
-      userInfo: this.props.anonymous ? loginUser : cacheUser,
+      userInfo: !this.props.anonymous ? loginUser : cacheUser,
       userComment: ''
     };
   }
@@ -67,7 +67,7 @@ export default class extends React.Component {
   renderUserInfo() {
     const { userInfo } = this.state;
     const { guest_info, anonymous } = this.props;
-    if (!anonymous && userInfo.mail) {
+    if (!anonymous) {
       return null;
     }
 
